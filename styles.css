@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: 'Indie Flower';
+    font-size: 40px;
+    color: rgba(225,232,238,255);
+}
+
+header {
+    margin: 0;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-image: linear-gradient(rgba(37,121,149,255), rgba(7,13,25,255));
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: rgba(7,13,25,255);
+}
+
+.Game {
+    display: flex;
+    margin: 50px;
+    background-image: url('uroBackground.jpg');
+    background-size: auto 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 800px;
+
+}
