@@ -32,11 +32,12 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     min-height: 800px;
+    justify-content: center;
+    align-items: center;
 
 }
 
 #Uro {
     height: 200px;
-    filter: drop-shadow(0px 0px 10px rgba(225,232,238,255))
-
+    filter: drop-shadow(0px 0px 10px rgba(225,232,238,255));
 }
