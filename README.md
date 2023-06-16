@@ -1,7 +1,7 @@
  # PROJECT 1 - URO'S JOURNEY
  ---
 
-## Technical Requirements
+## Technical Requirements - MVP
 Your App Must:
 
 ☐ Render a game in the browser.
@@ -47,3 +47,15 @@ EXTRAS
 - Scroll to next page of level (no canvas, only DOM!)
 - character jump/walk/direction animations
 - death/win animations */
+
+---
+
+## USER STORIES
+
+- User will be able to move character through the environment.
+- User will be able to land on top of obstacles.
+- User will lose the game when their character falls in a hole.
+- User will win the game when their character enters the home.
+- User will be able to interact with a home screen.
+- User will be able to turn music on and off.
+- User will be able to replay the level once it is completed/lost. 
