@@ -3,7 +3,7 @@ let uro = document.getElementById('Uro');
 let uroX = 0;
 let uroY = 0;
 let accelerationY = 700
-let speed = 20;
+let speed = 500;
 let gameWindow = document.querySelector('main')
 let gameWidth = gameWindow.innerWidth
 let gameHeight = gameWindow.innerHeight
@@ -17,21 +17,20 @@ let obstacles = document.querySelectorAll('.Ground')
 
 /*----- event listeners -----*/
 document.addEventListener('keydown', (e) => {
+    console.log(e.code);
     if (e.code === 'ArrowLeft') {
-        if (uroX > 0) {
+        if (uroX >= 0) {
             uroX -= speed;
-            uro.style.left = x + "px";
-            uro.style.transform = scaleX(-1);
+            uro.style.left = uroX + "px";
+            uro.style.transform = "scaleX(-1)";
         }
     } else if (e.code === 'ArrowRight') {
-        if (uroX > 0) {
-            uroX -= speed;
-            uro.style.left = x - "px";
-            uro.style.transform = scaleX(-1);
-        }
+            uro.style.transform = `translateX(100px)`;
+            uro.style.transform = "scaleX(1)";
+        
         
     } else if  (e.code === 'Space') {
-
+        // jump logic
     }
     
 })
@@ -50,7 +49,8 @@ function render(timestamp) {
     uro.style.left = uroX + 'px';
     obstacles.forEach((obstacle) => {
     if (isCollide(uro, obstacle)) {
-        uroY = obstacleRect.top - uro.offsetHeight;
+        speed = 0;
+        uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 5;
     }
 });
 
@@ -66,10 +66,10 @@ function isCollide(uro, b) {
     let uroRect = uro.getBoundingClientRect();
     let bRect = b.getBoundingClientRect();
     return !(
-        ((uro.y + uro.height) < (b.y)) ||
-        (uro.y > (b.y + b.height)) ||
-        ((uro.x + uro.width) < b.x) ||
-        (uro.x > (b.x + b.width))
+        ((uroRect.top + uroRect.offsetHeight) < (bRect.top)) ||
+        (uroRect.top > (bRect.top + bRect.offsetHeight)) ||
+        ((uroRect.left + uroRect.offsetWidth) < bRect.left) ||
+        (uroRect.left > (bRect.left + bRect.offsetWidth))
     );
     }
 
