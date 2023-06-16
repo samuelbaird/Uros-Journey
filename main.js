@@ -1,5 +1,12 @@
 /*----- constants -----*/
-
+let uro = document.getElementById('Uro');
+let uroX = 0;
+let uroY = 0;
+let accelerationY = 700
+let speed = 20;
+let gameWindow = document.querySelector('main')
+let gameWidth = gameWindow.innerWidth
+let gameHeight = gameWindow.innerHeight
 
 /*----- state variables -----*/
 
@@ -8,14 +15,49 @@
 
 
 /*----- event listeners -----*/
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'ArrowLeft') {
+        if (uroX > 0) {
+            uroX -= speed;
+            uro.style.left = x + "px";
+            uro.style.transform = scaleX(-1);
+        }
+    } else if (e.code === 'ArrowRight') {
+        if (uroX > 0) {
+            uroX -= speed;
+            uro.style.left = x - "px";
+            uro.style.transform = scaleX(-1);
+        }
+        
+    } else if  (e.code === 'Space') {
 
+    }
+    
+})
 
 /*----- functions -----*/
 
+function init() {
+    requestAnimationFrame(render);
+}
 
+function render(timestamp) {
+    const dt = timestamp - previousTimestamp
+    previousTimestamp = timestamp;
+    gravity(dt / 1000);
+    uro.style.top = uroY + 'px';
+    uro.style.left = uroX + 'px';
 
+requestAnimationFrame(render)
+}
 
+function gravity(dt) {
+    speed += accelerationY * dt;
+    uroY += speed * dt;
+}
 
+let previousTimestamp = 0;
+init();
 
 
 
