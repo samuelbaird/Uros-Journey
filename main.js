@@ -7,6 +7,7 @@ let speed = 20;
 let gameWindow = document.querySelector('main')
 let gameWidth = gameWindow.innerWidth
 let gameHeight = gameWindow.innerHeight
+let obstacles = document.querySelectorAll('.Ground')
 
 /*----- state variables -----*/
 
@@ -47,6 +48,11 @@ function render(timestamp) {
     gravity(dt / 1000);
     uro.style.top = uroY + 'px';
     uro.style.left = uroX + 'px';
+    obstacles.forEach((obstacle) => {
+    if (isCollide(uro, obstacle)) {
+        uroY = obstacleRect.top - uro.offsetHeight;
+    }
+});
 
 requestAnimationFrame(render)
 }
@@ -55,6 +61,17 @@ function gravity(dt) {
     speed += accelerationY * dt;
     uroY += speed * dt;
 }
+
+function isCollide(uro, b) {
+    let uroRect = uro.getBoundingClientRect();
+    let bRect = b.getBoundingClientRect();
+    return !(
+        ((uro.y + uro.height) < (b.y)) ||
+        (uro.y > (b.y + b.height)) ||
+        ((uro.x + uro.width) < b.x) ||
+        (uro.x > (b.x + b.width))
+    );
+    }
 
 let previousTimestamp = 0;
 init();
