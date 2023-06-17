@@ -3,13 +3,15 @@ let uro = document.getElementById('Uro');
 let uroX = 0;
 let uroY = 0;
 let accelerationY = 700
-let speedX = 20;
+let speedX = 10;
 let speedY = 20;
 let gameWindow = document.querySelector('main');
 let gameWidth = gameWindow.innerWidth;
 let gameHeight = gameWindow.innerHeight;
 let obstacles = document.querySelectorAll('.Ground');
 let arrowInput;
+let moving = false;
+let lastScaleX;
 
 /*----- state variables -----*/
 
@@ -20,12 +22,14 @@ let arrowInput;
 /*----- event listeners -----*/
 document.addEventListener('keydown', (e) => {
     if (e.code === 'ArrowLeft') {
-            uroX -= speedX;
+            moving = true;
             arrowInput = 'left';
+            lastScaleX = 'scaleX(-1)'
         }
      else if (e.code === 'ArrowRight') {
-            uroX += speedX;    
+            moving = true;  
             arrowInput = 'right';
+            lastScaleX = 'scaleX(1)'
     } else if  (e.code === 'Space') {
         // jump logic
     }
@@ -33,10 +37,12 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('keyup', (e) => {
     if (e.code === 'ArrowLeft') {
+        moving = false;
         arrowInput = null;
     }
  else if (e.code === 'ArrowRight') { 
-        arrowInput = null; 
+    moving = false;    
+    arrowInput = null;
  }
 });
 
@@ -52,12 +58,21 @@ function render(timestamp) {
     const dt = timestamp - previousTimestamp
     previousTimestamp = timestamp;
     gravity(dt / 1000);
-    uro.style.transform = `translate(${uroX}px, ${uroY}px)`;
-    if (arrowInput === 'left'){
-    uro.style.transform = 'scaleX(-1)';
-    } else if (arrowInput === 'right') {
-    uro.style.transform = 'scaleX(1)'  
-    }
+    if (moving) {
+        if (arrowInput === 'left'){
+            uroX -= speedX;
+            uro.style.transform = `${lastScaleX} translate(${uroX}px, ${uroY}px)`;
+    }   else if (arrowInput === 'right') {
+            uroX += speedX;
+            uro.style.transform = `${lastScaleX} translate(${uroX}px, ${uroY}px)`  
+    }   else {
+            uro.style.transform = `translate(${uroX}px, ${uroY}px)`
+    } 
+    
+}
+else {
+    uro.style.transform = `translate(${uroX}px, ${uroY}px)`
+}
     obstacles.forEach((obstacle) => {
     if (isCollide(uro, obstacle)) {
         speedY = 0;

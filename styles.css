@@ -46,8 +46,6 @@ body {
     position: absolute;
     height: 200px;
     filter: drop-shadow(0px 0px 10px rgba(225,232,238,255));
-    top: 0;
-    left: 0;
     transition: 0.1s;
 }
 
