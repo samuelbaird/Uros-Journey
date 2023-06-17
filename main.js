@@ -3,11 +3,13 @@ let uro = document.getElementById('Uro');
 let uroX = 0;
 let uroY = 0;
 let accelerationY = 700
-let speed = 500;
-let gameWindow = document.querySelector('main')
-let gameWidth = gameWindow.innerWidth
-let gameHeight = gameWindow.innerHeight
-let obstacles = document.querySelectorAll('.Ground')
+let speedX = 20;
+let speedY = 20;
+let gameWindow = document.querySelector('main');
+let gameWidth = gameWindow.innerWidth;
+let gameHeight = gameWindow.innerHeight;
+let obstacles = document.querySelectorAll('.Ground');
+let arrowInput;
 
 /*----- state variables -----*/
 
@@ -17,23 +19,28 @@ let obstacles = document.querySelectorAll('.Ground')
 
 /*----- event listeners -----*/
 document.addEventListener('keydown', (e) => {
-    console.log(e.code);
     if (e.code === 'ArrowLeft') {
-        if (uroX >= 0) {
-            uroX -= speed;
-            uro.style.left = uroX + "px";
-            uro.style.transform = "scaleX(-1)";
+            uroX -= speedX;
+            arrowInput = 'left';
         }
-    } else if (e.code === 'ArrowRight') {
-            uro.style.transform = `translateX(100px)`;
-            uro.style.transform = "scaleX(1)";
-        
-        
+     else if (e.code === 'ArrowRight') {
+            uroX += speedX;    
+            arrowInput = 'right';
     } else if  (e.code === 'Space') {
         // jump logic
     }
-    
-})
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.code === 'ArrowLeft') {
+        arrowInput = null;
+    }
+ else if (e.code === 'ArrowRight') { 
+        arrowInput = null; 
+ }
+});
+
+
 
 /*----- functions -----*/
 
@@ -45,21 +52,25 @@ function render(timestamp) {
     const dt = timestamp - previousTimestamp
     previousTimestamp = timestamp;
     gravity(dt / 1000);
-    uro.style.top = uroY + 'px';
-    uro.style.left = uroX + 'px';
+    uro.style.transform = `translate(${uroX}px, ${uroY}px)`;
+    if (arrowInput === 'left'){
+    uro.style.transform = 'scaleX(-1)';
+    } else if (arrowInput === 'right') {
+    uro.style.transform = 'scaleX(1)'  
+    }
     obstacles.forEach((obstacle) => {
     if (isCollide(uro, obstacle)) {
-        speed = 0;
+        speedY = 0;
         uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 5;
     }
 });
 
-requestAnimationFrame(render)
+requestAnimationFrame(render);
 }
 
 function gravity(dt) {
-    speed += accelerationY * dt;
-    uroY += speed * dt;
+    speedY += accelerationY * dt;
+    uroY += speedY * dt;
 }
 
 function isCollide(uro, b) {
