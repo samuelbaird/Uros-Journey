@@ -59,3 +59,13 @@ EXTRAS
 - User will be able to interact with a home screen.
 - User will be able to turn music on and off.
 - User will be able to replay the level once it is completed/lost. 
+
+---
+
+## CREDITS
+
+Gravity logic by Martin Heinz: https://towardsdatascience.com/implementing-2d-physics-in-javascript-860a7b152785 (My usage is EXTREMLY simplified)
+
+Collision logic based on the code provided by Àlex Garcés on stack overflow: https://stackoverflow.com/questions/2440377/javascript-collision-detection
+
+Movement logic based on code provided by Mark Lassoff: https://www.youtube.com/watch?v=Pg1UqzZ5NQM
