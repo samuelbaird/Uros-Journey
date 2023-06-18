@@ -46,7 +46,7 @@ body {
     position: absolute;
     height: 200px;
     filter: drop-shadow(0px 0px 10px rgba(225,232,238,255));
-    transition: 0.1s;
+    transition: 0.08s;
 }
 
 .Ground {

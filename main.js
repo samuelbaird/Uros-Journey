@@ -1,113 +1,103 @@
 /*----- constants -----*/
-let uro = document.getElementById('Uro');
+let uro = document.getElementById("Uro");
 let uroX = 0;
 let uroY = 0;
-let accelerationY = 700
+let accelerationY = 700;
 let speedX = 10;
 let speedY = 20;
-let gameWindow = document.querySelector('main');
+let gameWindow = document.querySelector("main");
 let gameWidth = gameWindow.innerWidth;
 let gameHeight = gameWindow.innerHeight;
-let obstacles = document.querySelectorAll('.Ground');
+let obstacles = document.querySelectorAll(".Ground");
 let arrowInput;
 let moving = false;
 let lastScaleX;
+let jumping;
 
 /*----- state variables -----*/
 
-
 /*----- cached elements  -----*/
 
-
 /*----- event listeners -----*/
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'ArrowLeft') {
-            moving = true;
-            arrowInput = 'left';
-            lastScaleX = 'scaleX(-1)'
-        }
-     else if (e.code === 'ArrowRight') {
-            moving = true;  
-            arrowInput = 'right';
-            lastScaleX = 'scaleX(1)'
-    } else if  (e.code === 'Space') {
-        // jump logic
-    }
+document.addEventListener("keydown", (e) => {
+  if (e.code === "ArrowLeft") {
+    moving = true;
+    arrowInput = "left";
+    lastScaleX = "scaleX(-1)";
+  } else if (e.code === "ArrowRight") {
+    moving = true;
+    arrowInput = "right";
+    lastScaleX = "scaleX(1)";
+  } else if (e.code === "Space") {
+    jumping = true
+  }
 });
 
-document.addEventListener('keyup', (e) => {
-    if (e.code === 'ArrowLeft') {
-        moving = false;
-        arrowInput = null;
-    }
- else if (e.code === 'ArrowRight') { 
-    moving = false;    
+document.addEventListener("keyup", (e) => {
+  if (e.code === "ArrowLeft") {
+    moving = false;
     arrowInput = null;
- }
+  } else if (e.code === "ArrowRight") {
+    moving = false;
+    arrowInput = null;
+  }
+ else if (e.code === "Space") {
+    jumping = false
+  }
 });
-
-
 
 /*----- functions -----*/
 
 function init() {
-    requestAnimationFrame(render);
+  requestAnimationFrame(render);
 }
 
 function render(timestamp) {
-    const dt = timestamp - previousTimestamp
-    previousTimestamp = timestamp;
-    gravity(dt / 1000);
-    if (moving) {
-        if (arrowInput === 'left'){
-            uroX -= speedX;
-            uro.style.transform = `${lastScaleX} translate(${uroX}px, ${uroY}px)`;
-    }   else if (arrowInput === 'right') {
-            uroX += speedX;
-            uro.style.transform = `${lastScaleX} translate(${uroX}px, ${uroY}px)`  
-    }   else {
-            uro.style.transform = `translate(${uroX}px, ${uroY}px)`
-    } 
-    
-}
-else {
-    uro.style.transform = `translate(${uroX}px, ${uroY}px)`
-}
-    obstacles.forEach((obstacle) => {
-    if (isCollide(uro, obstacle)) {
-        speedY = 0;
-        uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 5;
+  const dt = timestamp - previousTimestamp;
+  previousTimestamp = timestamp;
+  gravity(dt / 1000);
+  if (moving) {
+    if (arrowInput === "left") {
+      uroX -= speedX;
+      uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
+    } else if (arrowInput === "right") {
+      uroX += speedX;
+      uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
+    } else if (jumping) {
+        uroY += speedY
+        uro.style.transform = `translate(${uroY - 10}px)`
     }
-});
+  } else {
+    uro.style.transform = `translate(${uroX}px, ${uroY}px)`;
+  }
+  obstacles.forEach((obstacle) => {
+    if (isCollide(uro, obstacle)) {
+      speedY = 0;
+      uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 5;
+    }
+  });
 
-requestAnimationFrame(render);
+  requestAnimationFrame(render);
 }
 
 function gravity(dt) {
-    speedY += accelerationY * dt;
-    uroY += speedY * dt;
+  speedY += accelerationY * dt;
+  uroY += speedY * dt;
 }
 
 function isCollide(uro, b) {
-    let uroRect = uro.getBoundingClientRect();
-    let bRect = b.getBoundingClientRect();
-    return !(
-        ((uroRect.top + uroRect.offsetHeight) < (bRect.top)) ||
-        (uroRect.top > (bRect.top + bRect.offsetHeight)) ||
-        ((uroRect.left + uroRect.offsetWidth) < bRect.left) ||
-        (uroRect.left > (bRect.left + bRect.offsetWidth))
-    );
-    }
+  let uroRect = uro.getBoundingClientRect();
+  let bRect = b.getBoundingClientRect();
+  return !(
+    uroRect.top + uroRect.offsetHeight < bRect.top ||
+    uroRect.top > bRect.top + bRect.offsetHeight ||
+    uroRect.left + uroRect.offsetWidth < bRect.left ||
+    uroRect.left > bRect.left + bRect.offsetWidth
+  );
+}
 
 let previousTimestamp = 0;
 init();
-
-
-
-
-
-
-
 
 /* Pseudocode!
 - define variables
@@ -125,4 +115,3 @@ EXTRAS
 - Scroll to next page of level (no canvas, only DOM!)
 - character jump/walk/direction animations
 - death/win animations */
-
