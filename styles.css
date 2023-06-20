@@ -28,14 +28,13 @@ body {
 }
 
 .Game {
-    display: flex;
     margin: 50px;
-    background-image: url('uroBackground.jpg');
+    background-image: url('/assets/uroBackground.jpg');
     background-size: auto 100%;
     background-position: center;
     background-repeat: no-repeat;
-    height: 80%;
-    width: 60%; 
+    height: 540px;
+    width: 960px; 
     position: relative;
     align-self: center;
     
@@ -43,15 +42,13 @@ body {
 }
 
 #Uro {
-    /* position: absolute; */
-    align-self: flex-start;
-    height: 200px;
+    position: relative;
+    height: 140px;
     filter: drop-shadow(0px 0px 10px rgba(225,232,238,255));
     transition: 0.08s;
 }
 
 .Ground {
-    max-height: 100px;
-    align-self: flex-end;
-
+    position: absolute;
+    filter: saturate(50%);
 }

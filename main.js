@@ -1,14 +1,14 @@
 /*----- constants -----*/
 let uro = document.getElementById("Uro");
 let uroX = 0;
-let uroY = 20;
-let accelerationY = 700;
+let uroY = 280;
+let accelerationY = 2000;
 let speedX = 5;
 let speedY = 0;
 let gameWindow = document.querySelector("main");
 let gameWidth = gameWindow.innerWidth;
 let gameHeight = gameWindow.innerHeight;
-let obstacles = document.querySelectorAll(".Ground");
+let obstacles = Array.from(document.querySelectorAll(".Ground"));
 let arrowInput;
 let moving = false;
 let lastScaleX;
@@ -16,7 +16,7 @@ let jumping = false;
 let collisionChecking = true;
 let jumpDuration = 0;
 let maxJumpDuration = .1; 
-let collisionDetected = false;
+let collisionDetected;
 
 /*----- state variables -----*/
 
@@ -90,7 +90,7 @@ if (collisionChecking)  {
   obstacles.forEach((obstacle) => {
     if (isCollide(uro, obstacle)) {
       speedY = 0;
-      uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 70;
+      uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight;
     }
   });
 }
