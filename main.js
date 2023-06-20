@@ -2,7 +2,7 @@
 let uro = document.getElementById("Uro");
 let uroX = 0;
 let uroY = 20;
-let accelerationY = 350;
+let accelerationY = 100;
 let speedX = 5;
 let speedY = 0;
 let gameWindow = document.querySelector("main");
@@ -73,7 +73,7 @@ function render(timestamp) {
   obstacles.forEach((obstacle) => {
     if (isCollide(uro, obstacle)) {
       speedY = 0;
-      // uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 5;
+      uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 70;
     }
   });
 
@@ -89,15 +89,10 @@ function isCollide(uro, b) {
   let uroRect = uro.getBoundingClientRect();
   let bRect = b.getBoundingClientRect();
   return !(
-    // uroRect.top + uroRect.offsetHeight < bRect.top ||
-    // uroRect.top > bRect.top + bRect.offsetHeight ||
-    // uroRect.left + uroRect.offsetWidth < bRect.left ||
-    // uroRect.left > bRect.left + bRect.offsetWidth
-
-    ((uroRect.y + uroRect.offsetHeight) < (bRect.y)) ||
-    (uroRect.y > (bRect.y + bRect.offsetHeight)) ||
-    ((uroRect.x + uroRect.width) < bRect.x) ||
-    (uroRect.x > (bRect.x + bRect.width))
+    uroRect.bottom < bRect.top ||
+    uroRect.top > bRect.bottom ||
+    uroRect.right < bRect.left ||
+    uroRect.left > bRect.right
   );
 }
 
