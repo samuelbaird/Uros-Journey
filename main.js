@@ -2,7 +2,7 @@
 let uro = document.getElementById("Uro");
 let uroX = 0;
 let uroY = 20;
-let accelerationY = 100;
+let accelerationY = 700;
 let speedX = 5;
 let speedY = 0;
 let gameWindow = document.querySelector("main");
@@ -12,7 +12,11 @@ let obstacles = document.querySelectorAll(".Ground");
 let arrowInput;
 let moving = false;
 let lastScaleX;
-let jumping;
+let jumping = false;
+let collisionChecking = true;
+let jumpDuration = 0;
+let maxJumpDuration = .1; 
+let collisionDetected = false;
 
 /*----- state variables -----*/
 
@@ -20,6 +24,7 @@ let jumping;
 
 /*----- event listeners -----*/
 document.addEventListener("keydown", (e) => {
+  console.log(e.code);
   if (e.code === "ArrowLeft") {
     moving = true;
     arrowInput = "left";
@@ -28,8 +33,14 @@ document.addEventListener("keydown", (e) => {
     moving = true;
     arrowInput = "right";
     lastScaleX = "scaleX(1)";
-  } else if (e.code === "Space") {
-    jumping = true
+  } else if (e.code === "Space" && !jumping && collisionDetected) {
+    jumping = true;
+    collisionChecking = false;
+    speedY = 50;
+    jumpDuration = 0;
+    setTimeout(() => {
+      collisionChecking = true;
+    }, 200);
   }
 });
 
@@ -43,6 +54,7 @@ document.addEventListener("keyup", (e) => {
   }
  else if (e.code === "Space") {
     jumping = false
+    collisionChecking = true;
   }
 });
 
@@ -63,20 +75,25 @@ function render(timestamp) {
     } else if (arrowInput === "right") {
       uroX += speedX;
       uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
-    } else if (jumping) {
-        uroY += speedY
-        uro.style.transform = `translate(${uroY - 10}px)`
     }
-  } else {
+  } else if (jumping) {
+    uroY -= speedY * dt
+    uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
+    jumpDuration += dt;
+      if (jumpDuration >= maxJumpDuration) {
+        jumping = false;
+      }
+} else {
     uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
   }
+if (collisionChecking)  {
   obstacles.forEach((obstacle) => {
     if (isCollide(uro, obstacle)) {
       speedY = 0;
       uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 70;
     }
   });
-
+}
   requestAnimationFrame(render);
 }
 
@@ -88,12 +105,13 @@ function gravity(dt) {
 function isCollide(uro, b) {
   let uroRect = uro.getBoundingClientRect();
   let bRect = b.getBoundingClientRect();
-  return !(
+  collisionDetected = !(
     uroRect.bottom < bRect.top ||
     uroRect.top > bRect.bottom ||
     uroRect.right < bRect.left ||
     uroRect.left > bRect.right
   );
+  return collisionDetected;
 }
 
 let previousTimestamp = 0;
