@@ -58,7 +58,11 @@ body {
     filter: saturate(50%);
 }
 
-.trap {
+.traps {
         position: absolute;
         filter: drop-shadow(0px 0px 5px rgba(155, 0, 0, 0.8));
+}
+
+.home {
+    position: absolute;
 }

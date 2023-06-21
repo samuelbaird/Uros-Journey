@@ -8,7 +8,7 @@ let gameWindow = document.querySelector("main");
 let gameWidth = gameWindow.innerWidth;
 let gameHeight = gameWindow.innerHeight;
 let obstacles = document.querySelectorAll(".Ground");
-let traps = document.querySelectorAll(".traps")
+let traps = document.querySelectorAll(".traps");
 let arrowInput;
 let moving = false;
 let lastScaleX;
@@ -86,6 +86,14 @@ function render(timestamp) {
         speedY = 0;
         uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 70;
         collisionDetectedTemp = true;
+      }
+    });
+    traps.forEach((trap) => {
+      if (isCollide(uro, trap)) {
+        speedY = 0;
+        uroY = trap.getBoundingClientRect().top - uro.offsetHeight - 70;
+        collisionDetectedTemp = true;
+        gameStatus = -1;
       }
     });
   }
