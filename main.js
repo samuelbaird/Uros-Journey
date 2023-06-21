@@ -1,4 +1,3 @@
-/*----- constants -----*/
 let uro = document.getElementById("Uro");
 let uroX = 0;
 let uroY = 280;
@@ -8,21 +7,16 @@ let speedY = 0;
 let gameWindow = document.querySelector("main");
 let gameWidth = gameWindow.innerWidth;
 let gameHeight = gameWindow.innerHeight;
-let obstacles = Array.from(document.querySelectorAll(".Ground"));
+let obstacles = document.querySelectorAll(".Ground");
 let arrowInput;
 let moving = false;
 let lastScaleX;
 let jumping = false;
 let collisionChecking = true;
 let jumpDuration = 0;
-let maxJumpDuration = .1; 
+let maxJumpDuration = 0.1;
 let collisionDetected;
 
-/*----- state variables -----*/
-
-/*----- cached elements  -----*/
-
-/*----- event listeners -----*/
 document.addEventListener("keydown", (e) => {
   console.log(e.code);
   if (e.code === "ArrowLeft") {
@@ -36,7 +30,7 @@ document.addEventListener("keydown", (e) => {
   } else if (e.code === "Space" && !jumping && collisionDetected) {
     jumping = true;
     collisionChecking = false;
-    speedY = 50;
+    speedY = 30;
     jumpDuration = 0;
     setTimeout(() => {
       collisionChecking = true;
@@ -51,14 +45,11 @@ document.addEventListener("keyup", (e) => {
   } else if (e.code === "ArrowRight") {
     moving = false;
     arrowInput = null;
-  }
- else if (e.code === "Space") {
-    jumping = false
+  } else if (e.code === "Space") {
+    jumping = false;
     collisionChecking = true;
   }
 });
-
-/*----- functions -----*/
 
 function init() {
   requestAnimationFrame(render);
@@ -77,23 +68,26 @@ function render(timestamp) {
       uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
     }
   } else if (jumping) {
-    uroY -= speedY * dt
+    uroY -= speedY * dt;
     uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
     jumpDuration += dt;
-      if (jumpDuration >= maxJumpDuration) {
-        jumping = false;
-      }
-} else {
+    if (jumpDuration >= maxJumpDuration) {
+      jumping = false;
+    }
+  } else {
     uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
   }
-if (collisionChecking)  {
-  obstacles.forEach((obstacle) => {
-    if (isCollide(uro, obstacle)) {
-      speedY = 0;
-      uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight;
-    }
-  });
-}
+  let collisionDetectedTemp = false;
+  if (collisionChecking) {
+    obstacles.forEach((obstacle) => {
+      if (isCollide(uro, obstacle)) {
+        speedY = 0;
+        uroY = obstacle.getBoundingClientRect().top - uro.offsetHeight - 70;
+        collisionDetectedTemp = true;
+      }
+    });
+  }
+  collisionDetected = collisionDetectedTemp;
   requestAnimationFrame(render);
 }
 
