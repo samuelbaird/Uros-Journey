@@ -8,6 +8,7 @@ let gameWindow = document.querySelector("main");
 let gameWidth = gameWindow.innerWidth;
 let gameHeight = gameWindow.innerHeight;
 let obstacles = document.querySelectorAll(".Ground");
+let traps = document.querySelectorAll(".traps")
 let arrowInput;
 let moving = false;
 let lastScaleX;
@@ -16,6 +17,7 @@ let collisionChecking = true;
 let jumpDuration = 0;
 let maxJumpDuration = 0.1;
 let collisionDetected;
+let gameStatus = null;
 
 document.addEventListener("keydown", (e) => {
   console.log(e.code);
@@ -30,7 +32,7 @@ document.addEventListener("keydown", (e) => {
   } else if (e.code === "Space" && !jumping && collisionDetected) {
     jumping = true;
     collisionChecking = false;
-    speedY = 30;
+    speedY = 10;
     jumpDuration = 0;
     setTimeout(() => {
       collisionChecking = true;
