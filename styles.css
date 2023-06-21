@@ -8,6 +8,12 @@ h1 {
     color: rgba(225,232,238,255);
 }
 
+h3 {
+    font-family: 'Indie Flower';
+    color: rgba(225,232,238,255);
+    filter: drop-shadow(0px 0px 10px rgba(225,232,238,255));
+}
+
 header {
     margin: 0;
     height: 50px;
@@ -63,6 +69,15 @@ body {
         filter: drop-shadow(0px 0px 5px rgba(155, 0, 0, 0.8));
 }
 
-.home {
+#home {
     position: absolute;
+    filter: drop-shadow(0px 0px 10px rgba(225,232,238,255));
 }
+
+.grow { 
+    transition: all .2s ease-in-out; 
+    }
+    
+    .grow:hover { 
+    transform: scale(1.5); 
+    }
