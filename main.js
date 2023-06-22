@@ -3,7 +3,7 @@ let uroX = 10;
 let uroY = 10;
 let accelerationY = 2000;
 let speedX = 5;
-let speedY = 0;
+let speedY = 5;
 let gameWindow = document.querySelector("main");
 let gameWidth = 960;
 let gameHeight = 540;
@@ -98,7 +98,6 @@ function render(timestamp) {
     traps.forEach((trap) => {
       if (isCollide(uro, trap)) {
         speedY = 0;
-        uroY = trap.getBoundingClientRect().top - uro.offsetHeight - 70;
         collisionDetectedTemp = true;
         gameStatus = -1;
         return;
@@ -111,6 +110,7 @@ function render(timestamp) {
   }
   if (gameStatus === -1) {
     collisionChecking = false;
+
     loseGame();
     return;
   }
@@ -168,19 +168,21 @@ function loseGame() {
     loseMessage.style.opacity = "1";
     playAgain.style.opacity = "1";
   }, 50);
-  playAgain.addEventListener("click", restartGame);
+  setTimeout(() => {
+    uroX = 10
+    uroY = 10
+    uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
+    playAgain.addEventListener("click", restartGame);
+  }, 1000)
+  
 
   function restartGame() {
-    uroY = 10;
-    uroX = 10;
-    speedX = 0;
     gameStatus = null;
-    uro.style.left = "10px";
-    uro.style.top = "10px";
     loseImage.remove();
     loseMessage.remove();
     playAgain.removeEventListener("click", restartGame);
     playAgain.remove();
+    collisionChecking = true;
     init();
   }
 }
