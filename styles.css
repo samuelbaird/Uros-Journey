@@ -2,14 +2,6 @@
   box-sizing: border-box;
 }
 
-.grow {
-  transition: all 0.2s ease-in-out;
-}
-
-.grow:hover {
-  transform: scale(1.5);
-}
-
 h1 {
   font-family: "Indie Flower";
   font-size: 40px;
@@ -20,6 +12,10 @@ h3 {
   font-family: "Indie Flower";
   color: rgba(225, 232, 238, 255);
   filter: drop-shadow(0px 0px 10px rgba(225, 232, 238, 255));
+}
+
+h3:hover {
+    cursor: pointer;
 }
 
 header {
