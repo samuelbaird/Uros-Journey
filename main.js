@@ -104,14 +104,18 @@ function render(timestamp) {
       }
     });
     if (isCollide(uro, home)) {
+      collisionDetectedTemp = true;
       gameStatus = 1;
-      return;
     }
   }
   if (gameStatus === -1) {
     collisionChecking = false;
-
     loseGame();
+    return;
+  }
+  if (gameStatus === 1) {
+    collisionChecking = false;
+    winGame();
     return;
   }
   collisionDetected = collisionDetectedTemp;
@@ -169,17 +173,66 @@ function loseGame() {
     playAgain.style.opacity = "1";
   }, 50);
   setTimeout(() => {
-    uroX = 10
-    uroY = 10
+    uroX = 10;
+    uroY = 10;
     uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
     playAgain.addEventListener("click", restartGame);
-  }, 1000)
-  
-
+  }, 1000);
   function restartGame() {
     gameStatus = null;
     loseImage.remove();
     loseMessage.remove();
+    playAgain.removeEventListener("click", restartGame);
+    playAgain.remove();
+    collisionChecking = true;
+    init();
+  }
+}
+
+  function winGame() {
+    let winImage = document.createElement("img");
+    let winMessage = document.createElement("h1");
+    let playAgain = document.createElement("h3");
+    playAgain.classList.add("grow");
+    winImage.src = "/assets/EternityTree.jpg";
+    winImage.style.opacity = "0";
+    winMessage.style.opacity = "0";
+    playAgain.style.opacity = "0";
+    winMessage.style.position = "absolute";
+    winImage.style.position = "absolute";
+    playAgain.style.position = "absolute";
+    winMessage.style.color = "rgba(225,232,238,255)";
+    winMessage.style.filter = "drop-shadow(0px 0px 10px rgba(225,232,238,255))";
+    winMessage.style.transform = "translate(70%)";
+    playAgain.style.transform = "translate(500%, 1300%)";
+    winImage.style.transition = "opacity 1s ease";
+    winMessage.style.transition = "opacity 1s ease";
+    playAgain.style.transition = "opacity 1s ease";
+    winImage.style.objectFit = "cover";
+    winImage.style.width = "100%";
+    winImage.style.maxHeight = "100%";
+    winImage.style.left = "0";
+    winMessage.innerText = "The journey continues";
+    playAgain.innerText = "Play Again";
+    gameWindow.appendChild(winImage);
+    gameWindow.appendChild(winMessage);
+    gameWindow.appendChild(playAgain);
+    setTimeout(() => {
+      winImage.style.opacity = "1";
+      winMessage.style.opacity = "1";
+      playAgain.style.opacity = "1";
+    }, 50);
+    setTimeout(() => {
+      uroX = 10;
+      uroY = 10;
+      uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
+      playAgain.addEventListener("click", restartGame);
+    }, 1000);
+
+  function restartGame() {
+    gameStatus = null;
+    winImage.remove();
+    winMessage.remove();
     playAgain.removeEventListener("click", restartGame);
     playAgain.remove();
     collisionChecking = true;
