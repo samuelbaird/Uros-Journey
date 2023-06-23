@@ -20,6 +20,7 @@ let maxJumpDuration = 0.1;
 let collisionDetected;
 let gameStatus = null;
 let audio = document.getElementById("music");
+let backgroundPosition = 0;
 
 document.addEventListener("keydown", (e) => {
   if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
@@ -63,6 +64,7 @@ function init() {
 }
 
 function render(timestamp) {
+  let parallaxX = uroX / gameWidth;
   const dt = timestamp - previousTimestamp;
   previousTimestamp = timestamp;
   gravity(dt / 1000);
@@ -123,6 +125,9 @@ function render(timestamp) {
     winGame();
     return;
   }
+  gameWindow.style.backgroundPositionX = `${
+    backgroundPosition - parallaxX * 50
+  }px`;
   collisionDetected = collisionDetectedTemp;
   requestAnimationFrame(render);
 }
@@ -197,40 +202,54 @@ function winGame() {
   let winImage = document.createElement("img");
   let winMessage = document.createElement("h1");
   let playAgain = document.createElement("h3");
+  let backMenu = document.createElement("h3");
   winImage.src = "/assets/EternityTree.jpg";
   winImage.style.opacity = "0";
   winMessage.style.opacity = "0";
   playAgain.style.opacity = "0";
+  backMenu.style.opacity = "0";
   winMessage.style.position = "absolute";
   winImage.style.position = "absolute";
   playAgain.style.position = "absolute";
+  backMenu.style.position = "absolute";
   winMessage.style.color = "rgba(225,232,238,255)";
   winMessage.style.filter = "drop-shadow(0px 0px 10px rgba(0,0,0,0))";
   winMessage.style.transform = "translate(70%)";
   playAgain.style.transform = "translate(500%, 1300%)";
+  backMenu.style.transform = "translate(520%, 1400%)";
   winImage.style.transition = "opacity 1s ease";
   winMessage.style.transition = "opacity 1s ease";
   playAgain.style.transition = "opacity 1s ease";
+  backMenu.style.transition = "opacity 1s ease";
   winImage.style.objectFit = "cover";
   winImage.style.width = "100%";
   winImage.style.maxHeight = "100%";
   winImage.style.left = "0";
   winMessage.innerText = "The journey continues";
   playAgain.innerText = "Play Again";
+  backMenu.innerText = "Main Menu";
   gameWindow.appendChild(winImage);
   gameWindow.appendChild(winMessage);
   gameWindow.appendChild(playAgain);
+  gameWindow.appendChild(backMenu);
   setTimeout(() => {
     winImage.style.opacity = "1";
     winMessage.style.opacity = "1";
     playAgain.style.opacity = "1";
+    backMenu.style.opacity = "1";
   }, 50);
   setTimeout(() => {
     uroX = 10;
     uroY = 10;
     uro.style.transform = `translate(${uroX}px, ${uroY}px) ${lastScaleX}`;
     playAgain.addEventListener("click", restartGame);
+    backMenu.addEventListener("click", toStart);
   }, 1000);
+
+function toStart() {
+  mainMenu();
+  restartGame();
+}
 
   function restartGame() {
     gameStatus = null;
@@ -238,6 +257,8 @@ function winGame() {
     winMessage.remove();
     playAgain.removeEventListener("click", restartGame);
     playAgain.remove();
+    backMenu.remove();
+    backMenu.removeEventListener("click", mainMenu);
     collisionChecking = true;
     init();
   }
@@ -271,18 +292,17 @@ function mainMenu() {
   gameWindow.appendChild(message);
   gameWindow.appendChild(playAgain);
   gameWindow.appendChild(musicButton);
-    playAgain.addEventListener("click", restartGame);
-    musicButton.addEventListener("click", () => {
-      console.log("clicked")
-      if (audio.paused) {
-        audio.volume = 0.2;
-        audio.play();
-        musicButton.innerText = "Music: On";
-      } else {
-        audio.pause();
-        musicButton.innerText = "Music: Off";
-      }
-    });
+  playAgain.addEventListener("click", restartGame);
+  musicButton.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.volume = 0.2;
+      audio.play();
+      musicButton.innerText = "Music: On";
+    } else {
+      audio.pause();
+      musicButton.innerText = "Music: Off";
+    }
+  });
 
   function restartGame() {
     gameStatus = null;

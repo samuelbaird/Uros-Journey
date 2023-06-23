@@ -50,6 +50,8 @@ body {
   width: 960px;
   position: relative;
   align-self: center;
+  transition-timing-function: cubic-bezier(.15,.68,.93,.45);
+  transition: .5;
 }
 
 #Uro {
