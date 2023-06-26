@@ -1,6 +1,10 @@
  # PROJECT 1 - URO'S JOURNEY
  ---
 
+## Project Description
+
+This project's aim was to practice the development tools learned in Unit 1 of the General Assembly Software Engineering Immersive program. The goal was to build a browser game that met the technical requiremeents below. I opted to create a 2d platform game, and to practice the basics of HTML, CSS, and JS, this needed to be done without the use of canvas elements. Building the collision logic, game loop, physics, and manipulating individual elements on screen was a really fun adventure.
+
 ## Technical Requirements - MVP
 Your App Must:
 
