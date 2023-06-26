@@ -15,7 +15,7 @@ h3 {
 }
 
 h3:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 header {
@@ -50,8 +50,8 @@ body {
   width: 960px;
   position: relative;
   align-self: center;
-  transition-timing-function: cubic-bezier(.15,.68,.93,.45);
-  transition: .5;
+  transition-timing-function: cubic-bezier(0.15, 0.68, 0.93, 0.45);
+  transition: 0.5;
 }
 
 #Uro {
