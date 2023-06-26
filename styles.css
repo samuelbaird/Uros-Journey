@@ -42,7 +42,7 @@ body {
 
 .Game {
   margin: 50px;
-  background-image: url("/assets/uroBackground.jpg");
+  background-image: url("assets/uroBackground.jpg");
   background-size: auto 100%;
   background-position: center;
   background-repeat: no-repeat;

@@ -153,7 +153,7 @@ function loseGame() {
   let loseImage = document.createElement("img");
   let loseMessage = document.createElement("h1");
   let playAgain = document.createElement("h3");
-  loseImage.src = "/assets/loseImage.png";
+  loseImage.src = "assets/loseImage.png";
   loseImage.style.opacity = "0";
   loseMessage.style.opacity = "0";
   playAgain.style.opacity = "0";
@@ -203,7 +203,7 @@ function winGame() {
   let winMessage = document.createElement("h1");
   let playAgain = document.createElement("h3");
   let backMenu = document.createElement("h3");
-  winImage.src = "/assets/EternityTree.jpg";
+  winImage.src = "assets/EternityTree.jpg";
   winImage.style.opacity = "0";
   winMessage.style.opacity = "0";
   playAgain.style.opacity = "0";
@@ -269,7 +269,7 @@ function mainMenu() {
   let message = document.createElement("h1");
   let playAgain = document.createElement("h3");
   let musicButton = document.createElement("h3");
-  menu.src = "/assets/mainMenu.jpg";
+  menu.src = "assets/mainMenu.jpg";
   message.style.position = "absolute";
   musicButton.style.position = "absolute";
   menu.style.position = "absolute";
